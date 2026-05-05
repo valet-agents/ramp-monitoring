@@ -2,7 +2,7 @@ name: ramp-monitoring
 display_name: Ramp Monitoring
 description: >-
   Catches off-contract spend the moment it happens. Polls Ramp
-  every 5 minutes, classifies each new transaction against your
+  once a day, classifies each new transaction against your
   approved-vendor list, and flags anything off-contract,
   duplicate, or high-value in Slack. @mention it any time for
   a spend question.
@@ -52,5 +52,5 @@ channels:
       done_note: "Bot ready — invite it to #procurement"
 
   - type: heartbeat
-    every: 5m
-    description: "Polls Ramp every 5 minutes for new transactions to classify and flag."
+    every: 24h
+    description: "Polls Ramp once a day for new transactions to classify and flag."

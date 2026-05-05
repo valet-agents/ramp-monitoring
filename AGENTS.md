@@ -1,6 +1,6 @@
 This folder contains the source for a Skilled Agent originally built for the Valet runtime. Changes should follow the Skilled Agent open standard.
 
-Ramp Monitoring polls Ramp every 5 minutes for new card transactions, classifies each one against an approved-vendor list (APPROVED, UNRECOGNIZED, DUPLICATE, HIGH-VALUE, POLICY-FLAG), and posts a Slack card for everything except APPROVED. It also answers @mentioned questions about spend — *"anything unusual today?"*, *"trailing-30-day spend with merchant X?"*, *"is vendor Y approved?"*. Approving or rejecting a transaction is a write and always confirm-then-execute.
+Ramp Monitoring polls Ramp once a day for new card transactions, classifies each one against an approved-vendor list (APPROVED, UNRECOGNIZED, DUPLICATE, HIGH-VALUE, POLICY-FLAG), and posts a Slack card for everything except APPROVED. It also answers @mentioned questions about spend — *"anything unusual today?"*, *"trailing-30-day spend with merchant X?"*, *"is vendor Y approved?"*. Approving or rejecting a transaction is a write and always confirm-then-execute.
 
 ## Setup
 
@@ -43,7 +43,7 @@ valet connectors create mcp-server ramp-mcp \
 ### Channels
 
 - **slack** (slack): The agent's per-agent Slack bot. Listens for @mentions and replies in-thread, and posts anomaly cards to whichever channels the bot has been invited to (preferring `#procurement` / `#finance` / `#spend` / `#expenses` if any of those exist among its memberships). Slack writes use the auto-injected outbound Slack connector.
-- **heartbeat** (heartbeat): Fires every 5 minutes. Polls Ramp for new transactions, classifies them, posts non-APPROVED to Slack, and updates MEMORY.md. Declared inline in `valet.yaml`, so it's created automatically by the dashboard setup flow.
+- **heartbeat** (heartbeat): Fires once a day. Polls Ramp for new transactions, classifies them, posts non-APPROVED to Slack, and updates MEMORY.md. Declared inline in `valet.yaml`, so it's created automatically by the dashboard setup flow.
 
 ### Secrets
 
@@ -60,7 +60,7 @@ Set these only if the corresponding option is in use.
 
 ## Customizing
 
-- **Change the heartbeat interval**: edit `every: 5m` on the `heartbeat` channel in `valet.yaml`, then redeploy. `1m` is the lower bound; `15m` reduces load if your spend volume is low.
+- **Change the heartbeat interval**: edit `every: 24h` on the `heartbeat` channel in `valet.yaml`, then redeploy. `24h` is the default (one daily review); drop to `1h` during active month-end review when you want anomalies caught fast.
 - **Tune the approved-vendor list**: edit `APPROVED_VENDORS` env on the agent. New merchants flagged as UNRECOGNIZED can be added directly from a Slack @mention (`@ramp-monitoring add Notion to the approved list` — confirm-then-execute).
 - **Tune classification thresholds**: set `HIGH_VALUE_THRESHOLD` (in dollars, default `1000`) to change the high-value cutoff. Set `POLICY_KEYWORDS` (comma-separated) to override the default policy-flag keywords (`subscription, recurring, auto-renew`).
 - **Watch a specific Ramp account or department**: most Ramp MCP wrappers expose a `department_id` or `card_program_id` filter — pass it in via env var on the agent and reference it in the SOUL workflow.

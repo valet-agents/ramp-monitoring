@@ -1,6 +1,6 @@
 # Spend Watcher (Heartbeat)
 
-The heartbeat channel fires every 5 minutes. There is no
+The heartbeat channel fires once a day. There is no
 payload to parse — your job is to poll Ramp for new
 transactions, classify them against the approved-vendor list,
 and post a Slack card for anything that isn't APPROVED.
