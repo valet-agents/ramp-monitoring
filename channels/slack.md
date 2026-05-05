@@ -37,26 +37,20 @@ not read or act on messages from other channels or threads.
    and `text` from the event payload.
 2. Apply the Quick Filter above. If the message fails the
    filter, **stop here — do nothing**.
-3. **Connector check**: if neither `ramp-mcp` nor `zapier-mcp`
-   is attached to the agent, reply once in-thread with a short
-   setup hint: *"I'm not connected to Ramp yet. See AGENTS.md
-   for the two setup options (custom Ramp MCP, or Zapier
-   bridge) — once attached, I'll start watching spend on the
-   next heartbeat."* Then stop.
-4. Strip your @mention token from `text` to get the raw
+3. Strip your @mention token from `text` to get the raw
    question.
-5. Decide if this is a **read** (a question about spend) or a
+4. Decide if this is a **read** (a question about spend) or a
    **write** (asks you to approve, reject, add to vendor list,
    flag, or dispute a transaction). When ambiguous, treat it
    as a read and ask one clarifying question.
-6. For reads: pick the smallest set of Ramp queries that
+5. For reads: pick the smallest set of Ramp queries that
    answer the question. Format the result per the SOUL
    "Read-only questions" guidance — short, identifier-prefixed
    bullets. Quote dollar amounts exactly. Link Ramp
    transactions to their `url`.
-7. For writes: restate the proposed change in one line and
+6. For writes: restate the proposed change in one line and
    wait for an explicit confirmation (👍, "yes", "go", "do
    it") in the same thread before executing. Reply with the
    resulting Ramp transaction link only after executing.
-8. Reply in the thread using `thread_ts` if present,
+7. Reply in the thread using `thread_ts` if present,
    otherwise `ts`. One reply per mention.

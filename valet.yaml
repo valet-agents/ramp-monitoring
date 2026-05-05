@@ -24,6 +24,7 @@ story:
         Classifies each new charge — approved, unrecognized,
         duplicate, high-value, or policy-flag — against the
         vendor list you configure.
+      catalog: ramp-mcp
     - role: outcome
       title: "Anomalies flagged in Slack."
       body: >-
@@ -31,6 +32,22 @@ story:
         cardholder, suggested action, Ramp link. Approved
         charges stay silent.
       catalog: slack
+
+connectors:
+  - catalog: ramp-mcp
+    description: >-
+      The Ramp MCP server. The agent reads card transactions
+      to classify each new charge against your approved-vendor
+      list, and (only when explicitly asked and confirmed in
+      Slack) approves or rejects them. OAuth — no API token to
+      paste.
+    ui:
+      headline: "Connect Ramp with one click."
+      blurb: >-
+        OAuth into Ramp — no API client ID or secret to paste.
+        The agent reads transactions and posts anomaly cards;
+        approvals only happen when you ask and confirm in Slack.
+      done_note: "Ramp connected"
 
 channels:
   - catalog: slack

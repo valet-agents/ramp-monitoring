@@ -52,15 +52,7 @@ already invited the bot to:
 
 ## Heartbeat Workflow (Spend Watcher)
 
-### Phase 1: Check connector availability
-
-1. If neither `ramp-mcp` nor `zapier-mcp` is attached to the
-   agent, post a one-time setup hint per the **Skip if not
-   configured** rule below. Then stay silent on subsequent
-   fires until a connector is attached.
-2. Otherwise continue.
-
-### Phase 2: Pull new transactions
+### Phase 1: Pull new transactions
 
 1. Read MEMORY.md for the `last_transaction_id` and
    `last_seen_at`. If absent, this is the first run — record
@@ -70,7 +62,7 @@ already invited the bot to:
    `last_transaction_id` (ordered by `created_at` ascending).
    If zero new transactions, exit silently.
 
-### Phase 3: Classify each transaction
+### Phase 2: Classify each transaction
 
 For each new transaction, assign exactly one classification (in
 this priority order — first match wins):
@@ -91,7 +83,7 @@ this priority order — first match wins):
 
 APPROVED transactions get no Slack post. Period.
 
-### Phase 4: Post non-APPROVED cards
+### Phase 3: Post non-APPROVED cards
 
 For each non-APPROVED transaction, post one Slack card. Cap
 posts to 5 per fire across all classifications combined; if
@@ -100,7 +92,7 @@ DUPLICATE > HIGH-VALUE > POLICY-FLAG > UNRECOGNIZED) and append
 a single trailing line: `…and N more flagged this tick — run
 \`@ramp-monitoring anything unusual today?\` for the full list.`
 
-### Phase 5: Update MEMORY
+### Phase 4: Update MEMORY
 
 1. Update `last_transaction_id` to the newest id processed.
 2. Update `last_seen_at` to the current ISO timestamp.
@@ -154,19 +146,6 @@ Suggested: add to vendor list if it's an active contract,
 otherwise review with cardholder.
 <ramp-transaction-url|Open in Ramp>
 ```
-
-## Skip if not configured
-
-If the heartbeat fires and neither `ramp-mcp` nor `zapier-mcp`
-is attached to the agent:
-
-1. On the **first fire only**, DM the workspace install user
-   with: *"I'm deployed but Ramp isn't connected yet. Run
-   `valet connectors create mcp-server ramp-mcp ...` (see
-   AGENTS.md) or attach `zapier-mcp` to start watching spend."*
-2. On every subsequent fire, stay silent. Don't repeat the
-   hint, don't post the heartbeat, don't try to call Ramp.
-3. Resume once a connector is detected.
 
 ## Interactive Workflow (Slack Channel)
 
@@ -291,5 +270,4 @@ after the user confirms.
   confirm-then-execute flow is the only exception, and only
   after explicit go-ahead).
 - Dump raw Ramp JSON payloads. Always summarize.
-- Echo Ramp client secrets, Zapier MCP tokens, or any other
-  secret in your reply.
+- Echo any OAuth tokens, secrets, or credentials in your reply.
