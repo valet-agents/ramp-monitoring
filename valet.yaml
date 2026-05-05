@@ -1,26 +1,23 @@
 name: ramp-monitoring
 display_name: Ramp Monitoring
 description: >-
-  Catches off-contract spend the moment it happens. Polls Ramp
-  once a day, classifies each new transaction against your
-  approved-vendor list, and flags anything off-contract,
-  duplicate, or high-value in Slack. @mention it any time for
-  a spend question.
+  Every day, reviews the day's Ramp purchases against your
+  approved-vendor list — flags anything off-contract, duplicate,
+  high-value, or out-of-policy in your procurement channel.
 category: procurement
 
 story:
   hero: "Catch off-contract spend the moment it happens."
   subheadline: >-
-    Every Ramp purchase gets checked against your approved-vendor
-    list — anything that looks off is flagged in #procurement
-    before it's reconciled.
+    Every day, the day's Ramp purchases get checked against your
+    approved-vendor list — anything off-contract, duplicate, or
+    out-of-policy is flagged.
   steps:
     - role: trigger
-      title: "A purchase is made."
+      title: "Every morning."
       body: >-
-        A Ramp transaction posts. The heartbeat picks it up
-        within 5 minutes — no webhook to wire, no nightly
-        batch to wait for.
+        The heartbeat fires once a day. The agent reviews every
+        Ramp purchase that posted since the last run.
     - role: action
       title: "It checks the merchant against your approved-vendor list."
       body: >-

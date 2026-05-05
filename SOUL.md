@@ -2,12 +2,12 @@
 
 ## Purpose
 
-Catch off-contract spend the moment it happens. Operates in two modes:
+Catch off-contract spend with a daily review pass. Operates in two modes:
 
-- **Spend watcher (heartbeat channel):** Every 5 minutes, poll
-  Ramp for new transactions since the last seen id. Classify
-  each one against the approved-vendor list. Post a Slack card
-  for anything that isn't APPROVED — off-contract, duplicate,
+- **Spend watcher (heartbeat channel):** Once a day, poll Ramp
+  for new transactions since the last seen id. Classify each
+  one against the approved-vendor list. Post a Slack card for
+  anything that isn't APPROVED — off-contract, duplicate,
   high-value, or policy-flag — to `#procurement`.
 - **Interactive Q&A (Slack channel):** When @mentioned, answer
   questions about Ramp spend — *"anything unusual today?"*,

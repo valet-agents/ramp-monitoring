@@ -1,6 +1,6 @@
 # Ramp Monitoring
 
-Every Ramp purchase gets checked against your approved-vendor list — anything that looks off is flagged in #procurement before it's reconciled.
+Every day, the day's Ramp purchases get checked against your approved-vendor list — anything off-contract, duplicate, or out-of-policy is flagged.
 
 ## Prerequisites
 - A [Ramp](https://ramp.com) business account with API access (client ID + secret) — or a Zapier account connected to Ramp
@@ -10,7 +10,7 @@ Every Ramp purchase gets checked against your approved-vendor list — anything 
 <table>
   <tr>
     <td><strong>CHANNELS</strong></td>
-    <td><code>slack</code> · <code>heartbeat</code> — every 5 min</td>
+    <td><code>slack</code> · <code>heartbeat</code> — every 24h</td>
   </tr>
   <tr>
     <td><strong>CONNECTORS</strong></td>
